@@ -99,8 +99,12 @@ def avtokampi2(traveller):
 def kinderhotel(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
 
-    text = soup("table")[2]
-    text = " ".join(text("td")[8].find_all(string=True)[2:])
+    try:
+        text = soup("table")[2]
+        text = " ".join(text("td")[8].find_all(string=True)[2:])
+    except IndexError:
+        return None
+
     text = " ".join(text.split())
     text = text.strip()
     
@@ -119,7 +123,11 @@ def kinderhotel(traveller):
 def autoBooking(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
 
-    text = " ".join(soup("strong")[0].find_all(string=True))
+    try:
+        text = " ".join(soup("strong")[0].find_all(string=True))
+    except IndexError:
+        return None
+
     text = text.replace('\xa0', "")
     
     if text == "":
@@ -137,7 +145,10 @@ def autoBooking(traveller):
 def booking1(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
 
-    check = " ".join(soup("span")[0].find_all(string=True))
+    try:
+        check = " ".join(soup("span")[0].find_all(string=True))
+    except IndexError:
+        return None
 
     if re.search(r"Vanjski pošiljatelj", check) is None:
         return None
@@ -166,12 +177,19 @@ def booking2(traveller):
 
     counter: int = 0
 
-    aa = soup("td")[7]
+    try:
+        aa = soup("td")[7]
+    except IndexError:
+        return None
 
     while True:
         try:
-            bb = aa("td")[5 + counter]
-            text = " ".join(bb("td")[1].find_all(string=True))
+            try:
+                bb = aa("td")[5 + counter]
+                text = " ".join(bb("td")[1].find_all(string=True))
+            except IndexError:
+                return None
+            
             text = text.replace('\xa0', "")
 
             language = detectLanguage(text)
@@ -194,7 +212,10 @@ def booking2(traveller):
 def booking3(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
 
-    check = " ".join(soup("div")[0].find_all(string=True))
+    try:
+        check = " ".join(soup("div")[0].find_all(string=True))
+    except IndexError:
+        return None
     
     if re.search(r"Vanjski pošiljatelj / External sender", check) is None:
         return None
@@ -223,7 +244,11 @@ def booking3(traveller):
 def booking4(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
 
-    text = " ".join(soup("b")[0].find_all(string=True))
+    try:
+        text = " ".join(soup("b")[0].find_all(string=True))
+    except IndexError:
+        return None
+
     text = text.replace('\xa0', "")
     text = text.strip()
     
@@ -242,7 +267,11 @@ def booking4(traveller):
 def otochorwacja1(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
     
-    text = soup("body")[3].find_all(string=True)[0]
+    try:
+        text = soup("body")[3].find_all(string=True)[0]
+    except IndexError:
+        return None
+
     text = text.replace('\xa0', "")
     text = text.strip()
     
@@ -278,7 +307,10 @@ def otochorwacja2(traveller):
 def glamping(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
    
-    text = " ".join(soup("div")[0].find_all(string=True))
+    try:
+       text = " ".join(soup("div")[0].find_all(string=True))
+    except IndexError:
+       return None
     
     if re.search(r'Inhalt der Anfrage:[ ]+"(.*?)"',  text) is None:
         return None
@@ -353,7 +385,10 @@ def tripadvisor2(traveller):
 def tripadvisor3(traveller):
     soup = BeautifulSoup(traveller,  "html.parser")
     
-    text = " ".join(soup("div")[1].find_all(string=True))
+    try:
+        text = " ".join(soup("div")[1].find_all(string=True))
+    except IndexError:
+        return None
     
     if re.search(r"(.*?)(?=SUPER TOURS)",  text) is None:
         return None
@@ -378,7 +413,6 @@ def tripadvisor3(traveller):
 
 """ ------------------------------------------ PARSING ------------------------------------------ """
 for x in range(len(CSV)):
-    total = x # -------------------------------------------------------
     traveller = CSV.iloc[x, 0]
 
     if re.search(r"tierischer", traveller):
