@@ -302,12 +302,12 @@ def otochorwacja1(traveller):
     text = text.replace('\xa0', "")
     text = text.strip()
     
+    if text == "":
+        return None
+    
     language = detectLanguage(text)
     
     if language is None:
-        return None
-    
-    if text == "":
         return None
     
     tekstovi.append({
