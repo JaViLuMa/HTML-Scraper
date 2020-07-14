@@ -28,7 +28,7 @@ def detectLanguage(text):
     try:
         return detect(text)
     except LangDetectException:
-        return "UNKNOWN"
+        return None
 
 
 def tierischer(traveller):
@@ -40,10 +40,13 @@ def tierischer(traveller):
     text = re.sub(r"(?:<[^<>]*>|\s)+", " ", text)
     text = text.strip()
     
-    if text == "":
+    if text == "" or "Interessen:":
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -66,6 +69,9 @@ def avtokampi1(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -88,6 +94,9 @@ def avtokampi2(traveller):
         return None
 
     language = detectLanguage(text)
+
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -112,6 +121,9 @@ def kinderhotel(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -134,6 +146,9 @@ def autoBooking(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     automatskePoruke.append({
         "text": text,
@@ -164,6 +179,9 @@ def booking1(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -193,6 +211,9 @@ def booking2(traveller):
             text = text.replace('\xa0', "")
 
             language = detectLanguage(text)
+            
+            if language is None:
+                return None
             
             if text == "":
                 return None
@@ -233,6 +254,9 @@ def booking3(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -256,6 +280,9 @@ def booking4(traveller):
         return None
 
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
 
     tekstovi.append({
         "text": text,
@@ -277,6 +304,9 @@ def otochorwacja1(traveller):
     
     language = detectLanguage(text)
     
+    if language is None:
+        return None
+    
     if text == "":
         return None
     
@@ -295,6 +325,9 @@ def otochorwacja2(traveller):
     text = soup("p")[0].find_all(string=True)
     
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
     
     tekstovi.append({
         "text": text, 
@@ -325,6 +358,9 @@ def glamping(traveller):
     
     language = detectLanguage(text)
     
+    if language is None:
+        return None
+    
     tekstovi.append({
         "text": text, 
         "language": language, 
@@ -350,6 +386,9 @@ def tripadvisor1(traveller):
     
     language = detectLanguage(text)
     
+    if language is None:
+        return None
+    
     tekstovi.append({
         "text": text, 
         "language": language, 
@@ -374,6 +413,9 @@ def tripadvisor2(traveller):
         return None
     
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
     
     tekstovi.append({
         "text": text, 
@@ -402,6 +444,9 @@ def tripadvisor3(traveller):
         return None
     
     language = detectLanguage(text)
+    
+    if language is None:
+        return None
     
     tekstovi.append({
         "text": text, 
@@ -461,6 +506,9 @@ for x in range(len(CSV)):
 """ --------------------------------------------------------------------------------------------- """
 
 """ ----------------------------- CREATE FILES FOR STORING STUFF ----------------------------- """
+tekstovi = [dict(t) for t in {tuple(d.items()) for d in tekstovi}]
+automatskePoruke = [dict(t) for t in {tuple(d.items()) for d in automatskePoruke}]
+
 dataText = open("dataText.json",  "w")
 dataAutomated = open("dataAutomated.json",  "w")
 
