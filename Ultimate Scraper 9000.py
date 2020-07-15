@@ -31,6 +31,13 @@ def detectLanguage(text):
         return None
 
 
+def removeUnnecessaryStuff(text):
+    text = re.sub(r'\s+([?.!"])', r"\1", text)
+    text = re.sub(r"[\n]+| {2,}", " ", text)
+    
+    return text
+
+
 def tierischer(traveller):
     if re.search(r"(?<=Nachricht).*?(?=Mit)", traveller, re.S) is None:
         return None
@@ -43,6 +50,7 @@ def tierischer(traveller):
     if text == "" or "Interessen:":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -68,6 +76,7 @@ def avtokampi1(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -93,6 +102,7 @@ def avtokampi2(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
 
     if language is None:
@@ -120,6 +130,7 @@ def kinderhotel(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -145,6 +156,7 @@ def autoBooking(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -178,6 +190,7 @@ def booking1(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -210,6 +223,7 @@ def booking2(traveller):
             
             text = text.replace('\xa0', "")
 
+            text = removeUnnecessaryStuff(text)
             language = detectLanguage(text)
             
             if language is None:
@@ -253,6 +267,7 @@ def booking3(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -279,6 +294,7 @@ def booking4(traveller):
     if text == "":
         return None
 
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -289,8 +305,8 @@ def booking4(traveller):
         "language": language,
         "category": 4
     })
-    
-    
+
+
 def otochorwacja1(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
     
@@ -304,7 +320,8 @@ def otochorwacja1(traveller):
     
     if text == "":
         return None
-    
+
+    text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     
     if language is None:
@@ -315,8 +332,8 @@ def otochorwacja1(traveller):
         "language": language, 
         "category": 5
     })
-    
-    
+
+
 def otochorwacja2(traveller):
     pass
 """ 
@@ -355,7 +372,8 @@ def glamping(traveller):
     
     if text == "":
         return None
-    
+
+    text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     
     if language is None:
@@ -366,8 +384,8 @@ def glamping(traveller):
         "language": language, 
         "category": 6
     })
-    
-    
+
+
 def tripadvisor1(traveller):
     soup = BeautifulSoup(traveller,  "html.parser")
     
@@ -383,7 +401,8 @@ def tripadvisor1(traveller):
     
     if text == "":
         return None
-    
+
+    text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     
     if language is None:
@@ -394,8 +413,8 @@ def tripadvisor1(traveller):
         "language": language, 
         "category": 7
     })
-    
-    
+
+
 def tripadvisor2(traveller):
     soup = BeautifulSoup(traveller,  "html.parser")
     
@@ -411,7 +430,8 @@ def tripadvisor2(traveller):
     
     if text == "":
         return None
-    
+
+    text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     
     if language is None:
@@ -422,7 +442,7 @@ def tripadvisor2(traveller):
         "language": language, 
         "category": 7
     })
-    
+
 
 def tripadvisor3(traveller):
     soup = BeautifulSoup(traveller,  "html.parser")
@@ -442,7 +462,8 @@ def tripadvisor3(traveller):
     
     if text == "":
         return None
-    
+
+    text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     
     if language is None:
@@ -453,16 +474,84 @@ def tripadvisor3(traveller):
         "language": language, 
         "category": 7
     })
+
+
+def others1(traveller):
+    soup = BeautifulSoup(traveller,  "html.parser")
+    
+    text = " ".join(soup.find_all(string=True))
+    text = re.sub(r".*?-->",  "",  text)
+    text = text.replace('\xa0', "")
+    text = re.sub(r"[<>\t-]|[*]+|[=]+.*?|((http|https)\:\/\/)?[A-z0-9\.\/\?\:@\-_=#]+\.([A-z]){2,6}([A-z0-9\.\&\/\?\:@\-_=#])*|Sent from my [A-z]+|email",  "", text, re.I)
+    text = re.sub(r"[-]+Original.*",  "",  text)
+    text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
+    text = text.replace("Vanjski pošiljatelj / External sender",  "")
+    text = text.strip()
+
+    text = removeUnnecessaryStuff(text)
+    language = detectLanguage(text)
+    
+    if language is None:
+        return None
+
+    print(text,  "----------------------",  total, "\n")
+
+    tekstovi.append({
+        "text": text, 
+        "language": language, 
+        "category": 0
+    })
+
+
+def others2(traveller):
+    soup = BeautifulSoup(traveller,  "html.parser")
+    
+    try:
+        aa = soup("span")[1].find_all(string=True)
+    except IndexError:
+        return None
+    
+    for x in range(len(aa)):
+        if re.search(r"SUBJECT",  aa[x]):
+            bb = x
+        else:
+            return None
+    
+    del aa[:bb + 1]
+    
+    text = " ".join(aa)
+    text = text.replace('\xa0', "")
+    text = re.sub(r"[<>\t-]|[*]+|[=]+.*?|((http|https)\:\/\/)?[A-z0-9\.\/\?\:@\-_=#]+\.([A-z]){2,6}([A-z0-9\.\&\/\?\:@\-_=#])*|Sent from my [A-z]+|email",  "", text, re.I)
+    text = re.sub(r"[-]+Original.*",  "",  text)
+    text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
+    text = text.replace("Vanjski pošiljatelj / External sender",  "")
+    text = text.strip()
+
+    text = removeUnnecessaryStuff(text)
+    language = detectLanguage(text)
+    
+    if language is None:
+        return None
+    
+    print(text,  "----------------------",  total, "\n")
+    
+    tekstovi.append({
+        "text": text, 
+        "language": language, 
+        "category": 0
+    })
 """ --------------------------------------------------------------------------------------------- """
 
 
 """ ------------------------------------------ PARSING ------------------------------------------ """
 for x in range(len(CSV)):
     traveller = CSV.iloc[x, 0]
+    
+    total = x + 1
 
     if re.search(r"tierischer", traveller):
         tierischer(traveller)
-
+        
     elif re.search(r"avtokampi", traveller):
         if re.search(r"Povpraševanje", traveller):
             avtokampi1(traveller)
@@ -471,7 +560,7 @@ for x in range(len(CSV)):
 
     elif re.search(r"khotels", traveller):
         kinderhotel(traveller)
-
+        
     elif re.search(r"booking\.com", traveller):
         if re.search(r"Review proof of charge|Review claim and respond", traveller):
             autoBooking(traveller)
@@ -483,16 +572,16 @@ for x in range(len(CSV)):
             booking3(traveller)
         elif re.search(r"Guest Q&", traveller):
             booking4(traveller)
-
+        
     elif re.search(r"otochorwacja",  traveller):
         if re.search(r"[-]+ Proslijeđena poruka [-]+",  traveller):
             otochorwacja2(traveller)
         else:
             otochorwacja1(traveller)
-    
+        
     elif re.search(r"glamping\.info",  traveller):
         glamping(traveller)
-
+        
     elif re.search(r"tripadvisor",  traveller):
         if re.search(r"reservations@valamar\.com",  traveller):
             tripadvisor1(traveller)
@@ -500,7 +589,17 @@ for x in range(len(CSV)):
             tripadvisor2(traveller)
         elif re.search(r"SUPER TOURS",  traveller):
             tripadvisor3(traveller)
-
+        
+    elif re.search(r"Microsoft Exchange Server",  traveller):
+        if re.search(r"[_]+", traveller) or re.search(r"This notification is only to inform",  traveller) or re.search(r"camping.info",  traveller):
+            continue
+        elif re.search(r"MOLIM PREUZMITE MAIL", traveller) is None:
+            others1(traveller)
+        elif re.search(r"MOLIM PREUZMITE MAIL",  traveller):
+            others2(traveller)
+        else:
+            continue
+        
     else:
         continue
 """ --------------------------------------------------------------------------------------------- """
