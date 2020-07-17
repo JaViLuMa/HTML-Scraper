@@ -61,13 +61,13 @@ def tierischer(traveller):
         return None
     else:
         text = re.search(r"(?<=Nachricht).*?(?=Mit)", traveller, re.S).group(0)
-
+    
     text = re.sub(r"(?:<[^<>]*>|\s)+", " ", text)
     text = text.strip()
     
     if text == "" or "Interessen:":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -77,7 +77,7 @@ def tierischer(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -91,7 +91,7 @@ def avtokampi1(traveller):
         return None
     else:
         text = re.search(r"(?<=Sporočilo:).*?(?=S prijaznimi)", traveller, re.S).group(0)
-
+    
     text = re.sub(r"<[^<]+?>", " ", text)
     text = " ".join(text.split())
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
@@ -99,7 +99,7 @@ def avtokampi1(traveller):
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -109,7 +109,7 @@ def avtokampi1(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -123,7 +123,7 @@ def avtokampi2(traveller):
         return None
     else:
         text = re.search(r'(?<=charset=utf-8">).*?(?=Pošiljatelj:)', traveller, re.S).group(0)
-
+    
     text = re.sub(r"<[^<]+?>", " ", text)
     text = " ".join(text.split())
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
@@ -131,7 +131,7 @@ def avtokampi2(traveller):
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -141,7 +141,7 @@ def avtokampi2(traveller):
 
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -152,19 +152,19 @@ def avtokampi2(traveller):
 
 def kinderhotel(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     try:
         text = soup("table")[2]
         text = " ".join(text("td")[8].find_all(string=True)[2:])
     except IndexError:
         return None
-
+    
     text = " ".join(text.split())
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -174,7 +174,7 @@ def kinderhotel(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -185,17 +185,17 @@ def kinderhotel(traveller):
 
 def autoBooking(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     try:
         text = " ".join(soup("strong")[0].find_all(string=True))
     except IndexError:
         return None
-
+    
     text = text.replace('\xa0', "")
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -205,7 +205,7 @@ def autoBooking(traveller):
     
     if language is None:
         return None
-
+    
     automatskePoruke.append({
         "text": text,
         "language": language,
@@ -216,12 +216,12 @@ def autoBooking(traveller):
 
 def booking1(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     try:
         check = " ".join(soup("span")[0].find_all(string=True))
     except IndexError:
         return None
-
+    
     if re.search(r"Vanjski pošiljatelj", check) is None:
         return None
     else:
@@ -231,10 +231,10 @@ def booking1(traveller):
         else:
             text = " ".join(soup("span")[0].find_all(string=True))
             text = text.replace('\xa0', "")
-
+    
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -244,7 +244,7 @@ def booking1(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -255,14 +255,14 @@ def booking1(traveller):
 
 def booking2(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     counter: int = 0
-
+    
     try:
         aa = soup("td")[7]
     except IndexError:
         return None
-
+    
     while True:
         try:
             try:
@@ -272,12 +272,12 @@ def booking2(traveller):
                 return None
             
             text = text.replace('\xa0', "")
-
+            
             text = removeUnnecessaryStuff(text)
             language = detectLanguage(text)
             
             text = textChecker(text)
-    
+            
             if text is None:
                 return None
             
@@ -286,23 +286,23 @@ def booking2(traveller):
             
             if text == "":
                 return None
-
+            
             tekstovi.append({
                 "text": text,
                 "language": language,
                 "intent": "NADODATI",
                 "category": 4
             })
-
+        
         except IndexError:
             break
-
+    
         counter += 8
 
 
 def booking3(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     try:
         check = " ".join(soup("div")[0].find_all(string=True))
     except IndexError:
@@ -315,14 +315,14 @@ def booking3(traveller):
             text = check[45:]
             text = text.strip()
             text = text.replace('\xa0', "")
-
+        
         else:
             text = check.strip()
             text = text.replace('\xa0', "")
 
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -332,7 +332,7 @@ def booking3(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -343,18 +343,18 @@ def booking3(traveller):
 
 def booking4(traveller):
     soup = BeautifulSoup(traveller, "html.parser")
-
+    
     try:
         text = " ".join(soup("b")[0].find_all(string=True))
     except IndexError:
         return None
-
+    
     text = text.replace('\xa0', "")
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -364,7 +364,7 @@ def booking4(traveller):
     
     if language is None:
         return None
-
+    
     tekstovi.append({
         "text": text,
         "language": language,
@@ -380,13 +380,13 @@ def otochorwacja(traveller):
         text = soup("body")[3].find_all(string=True)[0]
     except IndexError:
         return None
-
+    
     text = text.replace('\xa0', "")
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
@@ -417,13 +417,13 @@ def glamping(traveller):
         return None
     else:
         text = re.search(r'Inhalt der Anfrage:[ ]+"(.*?)"',  text).group(1)
-
+    
     text = text.replace('\xa0', "")
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
@@ -451,13 +451,13 @@ def tripadvisor1(traveller):
         return None
     else:
         text = re.search(r"(?<=Message:).*?(?=Reply Now)",  text).group(0)
-
+    
     text = re.sub(r"[ ]+",  " ",  text)
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
@@ -485,13 +485,13 @@ def tripadvisor2(traveller):
         return None
     else:
         text = re.search(r"(?<=Messaggio:).*?(?=Rispondi ora)",  text).group(0)
-
+    
     text = re.sub(r"[ ]+",  " ",  text)
     text = text.strip()
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
@@ -528,7 +528,7 @@ def tripadvisor3(traveller):
     
     if text == "":
         return None
-
+    
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
@@ -558,7 +558,7 @@ def others1(traveller):
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
     text = text.replace("Vanjski pošiljatelj / External sender",  "")
     text = text.strip()
-
+    
     text = possiblyRemoveRepliesAndOtherStuff(text)
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
@@ -569,9 +569,7 @@ def others1(traveller):
     
     if language is None:
         return None
-
-    #print(text,  "----------------------",  total, "\n")
-
+    
     tekstovi.append({
         "text": text, 
         "language": language, 
@@ -603,7 +601,7 @@ def others2(traveller):
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
     text = text.replace("Vanjski pošiljatelj / External sender",  "")
     text = text.strip()
-
+    
     text = possiblyRemoveRepliesAndOtherStuff(text)
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
@@ -614,8 +612,6 @@ def others2(traveller):
     
     if language is None:
         return None
-    
-    #print(text,  "----------------------",  total, "\n")
     
     tekstovi.append({
         "text": text, 
@@ -631,7 +627,7 @@ for x in range(len(CSV)):
     traveller = CSV.iloc[x, 0]
     
     total = x + 1
-
+    
     if re.search(r"tierischer", traveller):
         tierischer(traveller)
         
@@ -640,10 +636,10 @@ for x in range(len(CSV)):
             avtokampi1(traveller)
         else:
             avtokampi2(traveller)
-
+    
     elif re.search(r"khotels", traveller):
         kinderhotel(traveller)
-        
+    
     elif re.search(r"booking\.com", traveller):
         if re.search(r"Review proof of charge|Review claim and respond", traveller):
             autoBooking(traveller)
@@ -655,14 +651,14 @@ for x in range(len(CSV)):
             booking3(traveller)
         elif re.search(r"Guest Q&", traveller):
             booking4(traveller)
-        
+    
     elif re.search(r"otochorwacja",  traveller):
         if re.search(r"[-]+ Proslijeđena poruka [-]+",  traveller) is None:
             otochorwacja(traveller)
-        
+    
     elif re.search(r"glamping\.info",  traveller):
         glamping(traveller)
-        
+    
     elif re.search(r"tripadvisor",  traveller):
         if re.search(r"reservations@valamar\.com",  traveller):
             tripadvisor1(traveller)
@@ -670,7 +666,7 @@ for x in range(len(CSV)):
             tripadvisor2(traveller)
         elif re.search(r"SUPER TOURS",  traveller):
             tripadvisor3(traveller)
-        
+    
     elif re.search(r"Microsoft Exchange Server",  traveller):
         if re.search(r"[_]+", traveller) or re.search(r"This notification is only to inform",  traveller) or re.search(r"camping.info",  traveller):
             continue
@@ -680,7 +676,7 @@ for x in range(len(CSV)):
             others2(traveller)
         else:
             continue
-        
+    
     else:
         continue
 """ --------------------------------------------------------------------------------------------- """
@@ -700,7 +696,7 @@ daPath = os.path.realpath(da.name)
 
 with io.open(dtPath,  "w",  encoding="utf8") as f:
     json.dump(tekstovi,  f,  indent=4,  ensure_ascii=False)
-    
+
 with io.open(daPath,  "w",  encoding="utf8") as f:
     json.dump(automatskePoruke,  f,  indent=4,  ensure_ascii=False)
 """ --------------------------------------------------------------------------------------------- """
