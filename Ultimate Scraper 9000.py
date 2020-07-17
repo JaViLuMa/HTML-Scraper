@@ -40,11 +40,11 @@ def removeUnnecessaryStuff(text):
 
 
 def possiblyRemoveRepliesAndOtherStuff(text):
-    text = re.sub(r"[Vv]on:.*|[Ff]rom:.*|[Oo]d:.*|[Dd]a:.*|[Ee].[Mm][Aa][Ii][Ll]|CMS.*",  "",  text)
+    text = re.sub(r"\b[Vv]on:.*|\b[Ff]rom:.*|\b[Oo]d:.*|\b[Dd]a:.*|\b[Ee].[Mm][Aa][Ii][Ll]|CMS.*",  "",  text)
     text = re.sub(r"[<>\-\[\]]",  "",  text)
     text = re.sub(r"[*]+|[=]+.*?",  "",  text)
     text = re.sub(r'((http|https)\:\/\/)?[A-z0-9\.\/\?\:@\-_=#]+\.([A-z]){2,6}([A-z0-9\.\&\/\?\:@\-_=#])*', "", text)
-    text = re.sub(r"[Ss]ent from my .*|[Vv]on meinem .*|[Tt]rimis de pe .*|[Ii]nviato da .*",  "",  text)
+    text = re.sub(r"[Ss]ent from my .*|[Vv]on meinem .*|[Tt]rimis de pe .*|[Ii]nviato da .*|[Ss]endt fra min .*",  "",  text)
     
     return text
 
