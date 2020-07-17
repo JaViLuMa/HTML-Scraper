@@ -44,7 +44,7 @@ def possiblyRemoveRepliesAndOtherStuff(text):
     text = re.sub(r"[<>\-\[\]]",  "",  text)
     text = re.sub(r"[*]+|[=]+.*?",  "",  text)
     text = re.sub(r'((http|https)\:\/\/)?[A-z0-9\.\/\?\:@\-_=#]+\.([A-z]){2,6}([A-z0-9\.\&\/\?\:@\-_=#])*', "", text)
-    text = re.sub(r"[Ss]ent from my .*|[Vv]on meinem .*|[Tt]rimis de pe .*|[Ii]nviato da .*|[Ss]endt fra min .*",  "",  text)
+    text = re.sub(r"[Ss]ent from my .*|[Vv]on meinem .*|[Tt]rimis de pe .*|[Ii]nviato da .*|[Ss]endt fra min .*|[Vv]erstuurd vanaf mijn .*",  "",  text)
     
     return text
 
