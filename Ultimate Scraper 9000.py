@@ -38,6 +38,7 @@ def detectLanguage(text):
 def removeUnnecessaryStuff(text):
     text = re.sub(r'\s+([?.!"])', r"\1", text)
     text = re.sub(r"[\n]+| {2,}", " ", text)
+    text = text.strip()
     
     return text
 
@@ -48,6 +49,7 @@ def possiblyRemoveRepliesAndOtherStuff(text):
     text = re.sub(r"[*]+|[=]+.*?",  "",  text)
     text = re.sub(r'((http|https)\:\/\/)?[A-z0-9\.\/\?\:@\-_=#]+\.([A-z]){2,6}([A-z0-9\.\&\/\?\:@\-_=#])*', "", text)
     text = re.sub(r"[Ss]ent from my .*|[Vv]on meinem .*|[Tt]rimis de pe .*|[Ii]nviato da .*|[Ss]endt fra min .*|[Vv]erstuurd vanaf mijn .*|[Oo]doslané z .*",  "",  text)
+    text = text.strip()
     
     return text
 
@@ -66,7 +68,6 @@ def tierischer(traveller):
         text = re.search(r"(?<=Nachricht).*?(?=Mit)", traveller, re.S).group(0)
     
     text = re.sub(r"(?:<[^<>]*>|\s)+", " ", text)
-    text = text.strip()
     
     if text == "" or "Interessen:":
         return None
@@ -98,7 +99,6 @@ def avtokampi1(traveller):
     text = re.sub(r"<[^<]+?>", " ", text)
     text = " ".join(text.split())
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -130,7 +130,6 @@ def avtokampi2(traveller):
     text = re.sub(r"<[^<]+?>", " ", text)
     text = " ".join(text.split())
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -163,7 +162,6 @@ def kinderhotel(traveller):
         return None
     
     text = " ".join(text.split())
-    text = text.strip()
     
     if text == "":
         return None
@@ -316,7 +314,6 @@ def booking3(traveller):
     else:
         if re.search(r"Vanjski pošiljatelj / External sender", check):
             text = check[45:]
-            text = text.strip()
             text = text.replace('\xa0', "")
         
         else:
@@ -353,7 +350,6 @@ def booking4(traveller):
         return None
     
     text = text.replace('\xa0', "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -385,7 +381,6 @@ def otochorwacja(traveller):
         return None
     
     text = text.replace('\xa0', "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -422,7 +417,6 @@ def glamping(traveller):
         text = re.search(r'Inhalt der Anfrage:[ ]+"(.*?)"',  text).group(1)
     
     text = text.replace('\xa0', "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -456,7 +450,6 @@ def tripadvisor1(traveller):
         text = re.search(r"(?<=Message:).*?(?=Reply Now)",  text).group(0)
     
     text = re.sub(r"[ ]+",  " ",  text)
-    text = text.strip()
     
     if text == "":
         return None
@@ -490,7 +483,6 @@ def tripadvisor2(traveller):
         text = re.search(r"(?<=Messaggio:).*?(?=Rispondi ora)",  text).group(0)
     
     text = re.sub(r"[ ]+",  " ",  text)
-    text = text.strip()
     
     if text == "":
         return None
@@ -527,7 +519,6 @@ def tripadvisor3(traveller):
         text = re.search(r"(.*?)(?=SUPER TOURS)",  text).group(0)
     
     text = text.replace('\xa0', "")
-    text = text.strip()
     
     if text == "":
         return None
@@ -560,7 +551,6 @@ def others1(traveller):
     text = re.sub(r"\S*@\S*\s?",  "",  text)
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
     text = text.replace("Vanjski pošiljatelj / External sender",  "")
-    text = text.strip()
     
     text = possiblyRemoveRepliesAndOtherStuff(text)
     text = removeUnnecessaryStuff(text)
@@ -603,7 +593,6 @@ def others2(traveller):
     text = re.sub(r"\S*@\S*\s?",  "",  text)
     text = text.replace("*** Vanjski pošiljatelj / External sender ***",  "")
     text = text.replace("Vanjski pošiljatelj / External sender",  "")
-    text = text.strip()
     
     text = possiblyRemoveRepliesAndOtherStuff(text)
     text = removeUnnecessaryStuff(text)
