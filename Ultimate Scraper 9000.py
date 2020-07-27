@@ -1,10 +1,3 @@
-"""
-Time complexity: 
-
-BEST CASE SCENARIO: O(n^2)
-WORST CASE SCENARIO: O(n^m)
-"""
-
 import re
 import os
 import io
@@ -28,9 +21,6 @@ def detectLanguage(text):
     try:
         text = text.capitalize()
         return detect(text)
-    except LangDetectException:
-        return None
-    
     except LangDetectException:
         return None
 
@@ -61,6 +51,24 @@ def textChecker(text):
         return text
 
 
+def textAppender(text, language, category):
+    tekstovi.append({
+        "text": text,
+        "language": language,
+        "intent": "NADODATI",
+        "category": category
+    })
+
+
+def automatedTextAppender(text, language, category):
+    automatskePoruke.append({
+        "text": text,
+        "language": language,
+        "intent": "NADODATI",
+        "category": category
+    })
+
+
 def tierischer(traveller):
     if re.search(r"(?<=Nachricht).*?(?=Mit)", traveller, re.S) is None:
         return None
@@ -75,19 +83,15 @@ def tierischer(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 1
     
     if text is None:
         return None
     
     if language is None:
         return None
-    
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 1
-    })
+
+    textAppender(text=text, language=language, category=category)
 
 
 def avtokampi1(traveller):
@@ -106,6 +110,7 @@ def avtokampi1(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 2
     
     if text is None:
         return None
@@ -113,12 +118,7 @@ def avtokampi1(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 2
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def avtokampi2(traveller):
@@ -137,6 +137,7 @@ def avtokampi2(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 2
     
     if text is None:
         return None
@@ -144,12 +145,7 @@ def avtokampi2(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 2
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def kinderhotel(traveller):
@@ -169,6 +165,7 @@ def kinderhotel(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 3
     
     if text is None:
         return None
@@ -176,12 +173,7 @@ def kinderhotel(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 3
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def autoBooking(traveller):
@@ -200,6 +192,7 @@ def autoBooking(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 4
     
     if text is None:
         return None
@@ -207,12 +200,7 @@ def autoBooking(traveller):
     if language is None:
         return None
     
-    automatskePoruke.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 4
-    })
+    automatedTextAppender(text=text, language=language, category=category)
 
 
 def booking1(traveller):
@@ -239,6 +227,7 @@ def booking1(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 4
     
     if text is None:
         return None
@@ -246,12 +235,7 @@ def booking1(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 4
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def booking2(traveller):
@@ -276,8 +260,8 @@ def booking2(traveller):
             
             text = removeUnnecessaryStuff(text)
             language = detectLanguage(text)
-            
             text = textChecker(text)
+            category = 4
             
             if text is None:
                 return None
@@ -288,12 +272,7 @@ def booking2(traveller):
             if text == "":
                 return None
             
-            tekstovi.append({
-                "text": text,
-                "language": language,
-                "intent": "NADODATI",
-                "category": 4
-            })
+            textAppender(text=text, language=language, category=category)
         
         except IndexError:
             break
@@ -326,6 +305,7 @@ def booking3(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 4
     
     if text is None:
         return None
@@ -333,12 +313,7 @@ def booking3(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 4
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def booking4(traveller):
@@ -357,6 +332,7 @@ def booking4(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 4
     
     if text is None:
         return None
@@ -364,12 +340,7 @@ def booking4(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text,
-        "language": language,
-        "intent": "NADODATI",
-        "category": 4
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def otochorwacja(traveller):
@@ -388,6 +359,7 @@ def otochorwacja(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 5
     
     if text is None:
         return None
@@ -395,12 +367,7 @@ def otochorwacja(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language,
-        "intent": "NADODATI",
-        "category": 5
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def glamping(traveller):
@@ -424,6 +391,7 @@ def glamping(traveller):
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 6
     
     if text is None:
         return None
@@ -431,12 +399,7 @@ def glamping(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language,
-        "intent": "NADODATI",
-        "category": 6
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def tripadvisor1(traveller):
@@ -457,6 +420,7 @@ def tripadvisor1(traveller):
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 7
     
     if text is None:
         return None
@@ -464,12 +428,7 @@ def tripadvisor1(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language,
-        "intent": "NADODATI",
-        "category": 7
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def tripadvisor2(traveller):
@@ -490,6 +449,7 @@ def tripadvisor2(traveller):
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 7
     
     if text is None:
         return None
@@ -497,12 +457,7 @@ def tripadvisor2(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language, 
-        "intent": "NADODATI",
-        "category": 7
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def tripadvisor3(traveller):
@@ -526,6 +481,7 @@ def tripadvisor3(traveller):
     text = removeUnnecessaryStuff(text)    
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 7
     
     if text is None:
         return None
@@ -533,12 +489,7 @@ def tripadvisor3(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language,
-        "intent": "NADODATI",
-        "category": 7
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def others1(traveller):
@@ -556,6 +507,7 @@ def others1(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 0
     
     if text is None:
         return None
@@ -563,12 +515,7 @@ def others1(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language, 
-        "intent": "NADODATI",
-        "category": 0
-    })
+    textAppender(text=text, language=language, category=category)
 
 
 def others2(traveller):
@@ -598,6 +545,7 @@ def others2(traveller):
     text = removeUnnecessaryStuff(text)
     language = detectLanguage(text)
     text = textChecker(text)
+    category = 0
     
     if text is None:
         return None
@@ -605,12 +553,7 @@ def others2(traveller):
     if language is None:
         return None
     
-    tekstovi.append({
-        "text": text, 
-        "language": language,
-        "intent": "NADODATI",
-        "category": 0
-    })
+    textAppender(text=text, language=language, category=category)
 """ --------------------------------------------------------------------------------------------- """
 
 
@@ -622,7 +565,7 @@ for x in range(len(CSV)):
     
     if re.search(r"tierischer", traveller):
         tierischer(traveller)
-        
+    
     elif re.search(r"avtokampi", traveller):
         if re.search(r"Povpraševanje", traveller):
             avtokampi1(traveller)
