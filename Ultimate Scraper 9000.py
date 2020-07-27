@@ -21,6 +21,7 @@ def detectLanguage(text):
     try:
         text = text.capitalize()
         return detect(text)
+    
     except LangDetectException:
         return None
 
@@ -617,21 +618,29 @@ for x in range(len(CSV)):
 """ --------------------------------------------------------------------------------------------- """
 
 """ ----------------------------- CREATE FILES FOR STORING STUFF ----------------------------- """
-tekstovi = [dict(t) for t in {tuple(d.items()) for d in tekstovi}]
-automatskePoruke = [dict(t) for t in {tuple(d.items()) for d in automatskePoruke}]
+if not tekstovi:
+    pass
+else:
+    tekstovi = [dict(t) for t in {tuple(d.items()) for d in tekstovi}]
+    
+    dataText = open("dataText.json",  "w")
+    
+    dt = open("dataText.json")
+    dtPath = os.path.realpath(dt.name)
+    
+    with io.open(dtPath,  "w",  encoding="utf8") as f:
+        json.dump(tekstovi,  f,  indent=4,  ensure_ascii=False)
 
-dataText = open("dataText.json",  "w")
-dataAutomated = open("dataAutomated.json",  "w")
-
-dt = open("dataText.json")
-dtPath = os.path.realpath(dt.name)
-
-da = open("dataAutomated.json")
-daPath = os.path.realpath(da.name)
-
-with io.open(dtPath,  "w",  encoding="utf8") as f:
-    json.dump(tekstovi,  f,  indent=4,  ensure_ascii=False)
-
-with io.open(daPath,  "w",  encoding="utf8") as f:
-    json.dump(automatskePoruke,  f,  indent=4,  ensure_ascii=False)
+if not automatskePoruke:
+    pass
+else:
+    automatskePoruke = [dict(t) for t in {tuple(d.items()) for d in automatskePoruke}]
+    
+    dataAutomated = open("dataAutomated.json",  "w")
+    
+    da = open("dataAutomated.json")
+    daPath = os.path.realpath(da.name)
+    
+    with io.open(daPath,  "w",  encoding="utf8") as f:
+        json.dump(automatskePoruke,  f,  indent=4,  ensure_ascii=False)
 """ --------------------------------------------------------------------------------------------- """
